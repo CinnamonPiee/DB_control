@@ -45,7 +45,9 @@ class DBManager:
         try:
             self.url = f"{self.check_dbm_url()}://{user}:{password}@{host}/{db_name}"
             self.engine: Engine = create_engine(self.url, echo=False)
-            with self.engine.connect()
+            # TODO stand here
+            with self.engine.connect():
+                pass
         except:
             pass
 
