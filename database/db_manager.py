@@ -1,4 +1,5 @@
 import logging
+import os
 from colorama import Fore, Style, init
 from sqlalchemy.engine.interfaces import ReflectedColumn
 from sqlalchemy.exc import OperationalError, ProgrammingError
@@ -8,7 +9,17 @@ from typing import Any, List
 
 init(autoreset=True)
 
-logging.getLogger("sqlalchemy.engine").setLevel(logging.WARNING)
+# Настройка логирования
+BASE_DIR: str = os.path.dirname(os.path.abspath(__file__))
+ROOT_DIR: str = os.path.dirname(BASE_DIR)
+LOG_FILE: str = os.path.join(ROOT_DIR, "test_log.log")
+logger: logging.Logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+file_handler = logging.FileHandler(LOG_FILE, mode='a', encoding='utf-8')
+file_handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s", "%Y-%m-%d %H:%M:%S")
+file_handler.setFormatter(formatter)
+logger.addHandler(file_handler)
 
 
 class DBManager:
